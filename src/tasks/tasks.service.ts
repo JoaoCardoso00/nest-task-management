@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Task, TaskStatus } from './task.model';
 import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { title } from 'process';
 
 @Injectable()
 export class TasksService {
@@ -37,7 +36,7 @@ export class TasksService {
 
   updateTask(id: string, changeParam: string, changeData: string) {
     const task = this.getTaskById(id);
-    
+
     switch(changeParam) {
       case  'title':
         task.title = changeData;
