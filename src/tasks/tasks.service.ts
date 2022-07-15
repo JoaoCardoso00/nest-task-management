@@ -8,18 +8,15 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-
   constructor(
     @InjectRepository(Task)
-    private tasksRepository: Repository<Task>,
+    private tasksRepository: Repository<Task> ,
   ) {}
 
   // getAllTasks(): Task[] {
   //   return this.tasks;
   // }
 
-
-  
   // getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
   //   const { status, search } = filterDto;
 
@@ -39,29 +36,26 @@ export class TasksService {
   async getTaskById(id: string): Promise<Task> {
     const found = await this.tasksRepository.findOne({ where: { id } });
 
-    if(!found) {
+    if (!found) {
       throw new NotFoundException(`Task with id ${id} not found`);
     }
 
     return found;
   }
 
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    const { title, description } = createTaskDto;
 
+    const task = this.tasksRepository.create({
+      title,
+      description,
+      status: TaskStatus.OPEN,
+    });
 
-  // createTask(createTaskDto: CreateTaskDto): Task {
-  //   const { title, description } = createTaskDto;
+    await this.tasksRepository.save(task);
 
-  //   const task: Task = {
-  //     id: uuid(),
-  //     title,
-  //     description,
-  //     status: TaskStatus.OPEN,
-  //   };
-
-  //   this.tasks.push(task);
-
-  //   return task;
-  // }
+    return task;
+  }
 
   // deleteTask(id: string): void {
   //   const task = this.getTaskById(id);
