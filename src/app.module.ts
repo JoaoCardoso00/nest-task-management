@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmExModule } from './database/typeorm-ex.module';
-import { TasksRepository } from './tasks/data/tasks.repository';
 
 @Module({
   imports: [
@@ -19,7 +17,6 @@ import { TasksRepository } from './tasks/data/tasks.repository';
       autoLoadEntities: true,
       synchronize: true,
     }),
-    TypeOrmExModule.forCustomRepository([TasksRepository]),
   ],
 })
 export class AppModule {}
