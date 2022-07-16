@@ -65,23 +65,7 @@ export class TasksService {
     }
   }
 
-  // updateTask(id: string, changeParam: string, changeData: string) {
-  //   const task = this.getTaskById(id);
-
-  //   switch(changeParam) {
-  //     case  'title':
-  //       task.title = changeData;
-  //     break;
-
-  //     case 'description':
-  //       task.description = changeData;
-  //     break;
-
-  //     case 'status':
-  //       task.status = TaskStatus[changeData];
-  //     break;
-  //   }
-
-  //   return task;
-  // }
+  async updateTask(id: string, changeParam: string, changeData: string) {
+    await this.tasksRepository.update({ id }, { [changeParam]: changeData });
+  }
 }

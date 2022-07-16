@@ -42,16 +42,16 @@ export class TasksController {
     return this.tasksService.deleteTask(id);
   }
 
-  // @Patch('/:id/:changeParam')
-  // updateTask(
-  //   @Param('id') id: string,
-  //   @Param('changeParam') changeParam: string,
-  //   @Body() UpdateTaskDto: UpdateTaskDto,
-  // ): Task {
-  //   return this.tasksService.updateTask(
-  //     id,
-  //     changeParam,
-  //     UpdateTaskDto[changeParam],
-  //   );
-  // }
+  @Patch('/:id/:changeParam')
+  updateTask(
+    @Param('id') id: string,
+    @Param('changeParam') changeParam: string,
+    @Body() UpdateTaskDto: UpdateTaskDto,
+  ): Promise<void> {
+    return this.tasksService.updateTask(
+      id,
+      changeParam,
+      UpdateTaskDto[changeParam],
+    );
+  }
 }
