@@ -10,28 +10,29 @@ import { Repository } from 'typeorm';
 export class TasksService {
   constructor(
     @InjectRepository(Task)
-    private tasksRepository: Repository<Task> ,
+    private tasksRepository: Repository<Task>,
   ) {}
 
-  // getAllTasks(): Task[] {
-  //   return this.tasks;
-  // }
+  async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    const { status, search } = filterDto;
 
-  // getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
-  //   const { status, search } = filterDto;
+    const query = this.tasksRepository.createQueryBuilder('task');
 
-  //   let tasks = this.getAllTasks();
+    if (status) {
+      query.andWhere(' task.status = :status', { status });
+    }
 
-  //   if(status) {
-  //     tasks = tasks.filter(task => task.status === status);
-  //   }
+    if (search) {
+      query.andWhere(
+        'LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)',
+        { search: `%${search}%` },
+      );
+    }
 
-  //   if(search) {
-  //     tasks = tasks.filter(task => task.title.includes(search) || task.description.includes(search));
-  //   }
+    const tasks = await query.getMany();
 
-  //   return tasks;
-  // }
+    return tasks;
+  }
 
   async getTaskById(id: string): Promise<Task> {
     const found = await this.tasksRepository.findOne({ where: { id } });
