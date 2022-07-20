@@ -12,8 +12,9 @@ import { JwtModule } from '@nestjs/jwt';
   imports: [
     TypeOrmModule.forFeature([User]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    //TODO: store secret in env variable
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: "secretKey",
       signOptions: { expiresIn: 3600 },
     }),
   ],
